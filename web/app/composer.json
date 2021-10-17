@@ -1,0 +1,26 @@
+{
+  "name": "pavel/task2senler",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Pavel",
+      "email": "vetlyugaev@yandex.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "symfony/routing": ">=5.3",
+    "vlucas/phpdotenv": "^5.3",
+    "symfony/http-foundation": "^5.3",
+    "firebase/php-jwt": "^5.4",
+    "phpmailer/phpmailer": "^6.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "pavel\\users\\": "../public/objects/",
+      "pavel\\connect\\": "../public/database/"
+    }
+  }
+}
