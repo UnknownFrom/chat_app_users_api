@@ -1,1 +1,3 @@
 .idea
+./web/app/vendor
+./web/app/composer.lock
