@@ -43,7 +43,7 @@ class ActivationEmail
 
             // Тема письма
             $mail->Subject = 'Подтвердите регистрацию';
-            $base_url = $_ENV['NGINX_HOST'] . '/users/';
+            $base_url = $_ENV['NGINX_HOST'] . '/';
 
             // Тело письма
             $body = '<strong>Здравствуйте!</strong> <br/> <br/> Мы должны убедиться в том, что вы человек. Пожалуйста, подтвердите адрес вашей электронной почты, и можете начать использовать ваш аккаунт на сайте. <br/> <br/> <a href="http://' . $base_url . 'activation?token=' . $token . '">Ссылка для подтверждения</a>';
