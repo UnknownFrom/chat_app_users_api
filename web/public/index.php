@@ -27,6 +27,9 @@ try {
         case 'users_signup_route':
             Users::setUser($db, $_POST);
             return;
+        case 'users_token_route':
+            Users::getNameOnToken($db, $_POST['token']);
+            return;
         case 'users_confirm_route':
             ActivationEmail::activationEmail($db, $_GET['token']);
             return;

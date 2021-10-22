@@ -7,6 +7,7 @@ const ERROR_LOAD_AVATAR = 2;
 
 use PDO;
 use \Firebase\JWT\JWT;
+use PHPMailer\PHPMailer\Exception;
 
 class Users
 {
@@ -60,10 +61,41 @@ class Users
             'avatar' => $res['avatar'],
             'email' => $res['email']
         ];
+
+        // создание токена
+        $token = array(
+            "id" => $res['id']
+        );
+
+        $jwt = JWT::encode($token, $_ENV['EMAIL_KEY'], 'HS256');
+
         $response = [
-            'status' => true
+            'status' => true,
+            'token' => $jwt
         ];
         echo json_encode($response);
+    }
+
+    static function getNameOnToken($connect, $token)
+    {
+        try {
+            $id = JWT::decode($token, $_ENV['EMAIL_KEY'], array('HS256'));
+            $sth = $connect->prepare("SELECT * FROM `users` WHERE `id` = :id");
+            $sth->execute(['id' => $id->id]);
+            $res = $sth->fetch(PDO::FETCH_ASSOC);
+            if (!$res) {
+                $res['status'] = FALSE;
+                echo json_encode($res);
+                die();
+            }
+            $res['status'] = TRUE;
+            echo json_encode($res);
+        }catch (Exception $e)
+        {
+            $res['status'] = FALSE;
+            echo json_encode($res);
+            die();
+        }
     }
 
     static function setUser($connect, $data)

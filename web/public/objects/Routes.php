@@ -23,12 +23,14 @@ class Routes
             $users_confirm_route = new Route('/activation');
             $users_signin_route = new Route('/signin');
             $users_signup_route = new Route('/signup');
+            $users_token_route = new Route('/token');
 
             self::$routeCollection = new RouteCollection();
             self::$routeCollection->add('users_route', $users_route);
             self::$routeCollection->add('users_confirm_route', $users_confirm_route);
             self::$routeCollection->add('users_signin_route', $users_signin_route);
             self::$routeCollection->add('users_signup_route', $users_signup_route);
+            self::$routeCollection->add('users_token_route', $users_token_route);
 
             self::$context = new RequestContext();
             self::$context->fromRequest(Request::createFromGlobals());
