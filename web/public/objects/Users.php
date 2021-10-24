@@ -90,8 +90,7 @@ class Users
             }
             $res['status'] = TRUE;
             echo json_encode($res);
-        }catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $res['status'] = FALSE;
             echo json_encode($res);
             die();
@@ -241,5 +240,20 @@ class Users
         if (count($res) > 0) {
             echo json_encode($res);
         }
+    }
+
+    public static function addMessage(?PDO $connect, array $data)
+    {
+        $sth = $connect->prepare('INSERT INTO message (id, fullName, message) VALUES (NULL, :fullName, :message)');
+        $sth->execute($data);
+        echo json_encode(['status' => true]);
+    }
+
+    public static function baseMessage(?PDO $connect)
+    {
+        $sth = $connect->prepare("SELECT * FROM `message`");
+        $sth->execute();
+        $res = $sth->fetch(PDO::FETCH_ASSOC);
+        echo json_encode($res);
     }
 }
