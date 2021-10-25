@@ -89,7 +89,13 @@ class Users
                 die();
             }
             $res['status'] = TRUE;
-            echo json_encode($res);
+            $data['fullName'] = $res['fullName'];
+            $data['login'] = $res['login'];
+            $data['id'] = $res['id'];
+            $data['status'] = $res['status'];
+
+
+            echo json_encode($data);
         } catch (Exception $e) {
             $res['status'] = FALSE;
             echo json_encode($res);
