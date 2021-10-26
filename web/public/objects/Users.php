@@ -55,14 +55,14 @@ class Users
         }
 
         // заносим информацию об авторизованном пользователе
-        $_SESSION['user'] = [
+        /*$_SESSION['user'] = [
             'id' => $res['id'],
             'fullName' => $res['fullName'],
             'avatar' => $res['avatar'],
             'email' => $res['email']
-        ];
+        ];*/
 
-        // создание токена
+        // создание токена для отправки в ссылке
         $token = array(
             "id" => $res['id']
         );
@@ -248,7 +248,7 @@ class Users
             echo json_encode($res);
         }
     }
-
+/*
     public static function addMessage(?PDO $connect, array $data)
     {
         $sth = $connect->prepare('INSERT INTO message (id, fullName, message) VALUES (NULL, :fullName, :message)');
@@ -262,5 +262,5 @@ class Users
         $sth->execute();
         $res = $sth->fetch(PDO::FETCH_ASSOC);
         echo json_encode($res);
-    }
+    }*/
 }

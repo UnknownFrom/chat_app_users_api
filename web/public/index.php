@@ -30,12 +30,12 @@ try {
         case 'users_token_route':
             Users::getNameOnToken($db, $_POST['token']);
             return;
-        case 'users_addMessage_route':
+        /*case 'users_addMessage_route':
             Users::addMessage($db, $_POST);
             return;
         case 'users_baseMessage_route':
             Users::baseMessage($db);
-            return;
+            return;*/
         case 'users_confirm_route':
             ActivationEmail::activationEmail($db, $_GET['token']);
             return;
