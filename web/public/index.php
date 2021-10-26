@@ -30,6 +30,14 @@ try {
         case 'users_token_route':
             Users::getNameOnToken($db, $_POST['token']);
             return;
+        case 'users_id_route':
+            if(empty($_POST))
+            {
+                $rest_json = file_get_contents("php://input");
+                $_POST = json_decode($rest_json, true);
+            }
+            Users::getUserOnID($db, $_POST['id']);
+            return;
         /*case 'users_addMessage_route':
             Users::addMessage($db, $_POST);
             return;

@@ -76,6 +76,22 @@ class Users
         echo json_encode($response);
     }
 
+    static function getUserOnID($connect, $id)
+    {
+        /*echo json_encode($id);
+        die();*/
+        $sth = $connect->prepare("SELECT * FROM `users` WHERE `id` = :id");
+        $sth->execute(['id' => $id]);
+        $res = $sth->fetch(PDO::FETCH_ASSOC);
+        if (!$res) {
+            $res['status'] = FALSE;
+            echo json_encode($res);
+            die();
+        }
+        $res['status'] = TRUE;
+        echo json_encode($res);
+    }
+
     static function getNameOnToken($connect, $token)
     {
         try {

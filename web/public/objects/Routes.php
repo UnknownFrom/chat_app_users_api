@@ -24,8 +24,7 @@ class Routes
             $users_signin_route = new Route('/signin');
             $users_signup_route = new Route('/signup');
             $users_token_route = new Route('/token');
-            $users_addMessage_route = new Route('/addMessage');
-            $users_baseMessage_route = new Route('/baseMessage');
+            $users_id_route = new Route('/id');
 
             self::$routeCollection = new RouteCollection();
             self::$routeCollection->add('users_route', $users_route);
@@ -33,8 +32,7 @@ class Routes
             self::$routeCollection->add('users_signin_route', $users_signin_route);
             self::$routeCollection->add('users_signup_route', $users_signup_route);
             self::$routeCollection->add('users_token_route', $users_token_route);
-            self::$routeCollection->add('users_addMessage_route', $users_addMessage_route);
-            self::$routeCollection->add('users_baseMessage_route', $users_baseMessage_route);
+            self::$routeCollection->add('users_id_route', $users_id_route);
 
             self::$context = new RequestContext();
             self::$context->fromRequest(Request::createFromGlobals());
