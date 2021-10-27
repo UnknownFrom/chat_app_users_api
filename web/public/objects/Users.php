@@ -54,14 +54,6 @@ class Users
             die();
         }
 
-        // заносим информацию об авторизованном пользователе
-        /*$_SESSION['user'] = [
-            'id' => $res['id'],
-            'fullName' => $res['fullName'],
-            'avatar' => $res['avatar'],
-            'email' => $res['email']
-        ];*/
-
         // создание токена для отправки в ссылке
         $token = array(
             "id" => $res['id']
