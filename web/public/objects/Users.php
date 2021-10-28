@@ -56,7 +56,8 @@ class Users
 
         // создание токена для отправки в ссылке
         $token = array(
-            "id" => $res['id']
+            'id' => $res['id'],
+            'fullName' => $res['login']
         );
 
         $jwt = JWT::encode($token, $_ENV['EMAIL_KEY'], 'HS256');
