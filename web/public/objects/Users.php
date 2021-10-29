@@ -60,7 +60,7 @@ class Users
             'fullName' => $res['login']
         );
 
-        $jwt = JWT::encode($token, $_ENV['EMAIL_KEY'], 'HS256');
+        $jwt = JWT::encode($token, $_ENV['TOKEN_KEY'], 'HS256');
 
         $response = [
             'status' => true,
@@ -88,7 +88,7 @@ class Users
     static function getNameOnToken($connect, $token)
     {
         try {
-            $id = JWT::decode($token, $_ENV['EMAIL_KEY'], array('HS256'));
+            $id = JWT::decode($token, $_ENV['TOKEN_KEY'], array('HS256'));
             $sth = $connect->prepare("SELECT * FROM `users` WHERE `id` = :id");
             $sth->execute(['id' => $id->id]);
             $res = $sth->fetch(PDO::FETCH_ASSOC);
@@ -169,7 +169,7 @@ class Users
         );
 
         // создание токена
-        $jwt = JWT::encode($token, $_ENV['EMAIL_KEY'], 'HS256');
+        $jwt = JWT::encode($token, $_ENV['TOKEN_KEY'], 'HS256');
 
         // отправка письма подтверждения
         ActivationEmail::sendMail($data['email'], $jwt);

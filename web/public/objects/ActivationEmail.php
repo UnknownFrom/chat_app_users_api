@@ -60,7 +60,7 @@ class ActivationEmail
         if ($token) {
             try {
                 // декодирование токена
-                $decoded = JWT::decode($token, $_ENV['EMAIL_KEY'], array('HS256'));
+                $decoded = JWT::decode($token, $_ENV['TOKEN_KEY'], array('HS256'));
 
                 $sth = $connect->prepare("SELECT * FROM `users` WHERE `id` = :id AND `confirm` = TRUE");
                 $sth->execute(['id' => $decoded->id]);
