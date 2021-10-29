@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Users
 {
+    // получение пользователя из базы
     static function getUser($connect, $data)
     {
         // проверка на пустые поля
@@ -35,7 +36,8 @@ class Users
         // проверка подтверждения почты
         $data['password'] = md5($data['password']);
         self::checkEmail($connect, $data);
-        // Вытаскиваем пользователя из базы...
+
+        // Вытаскиваем пользователя из базы
         $sth = $connect->prepare("SELECT * FROM `users` WHERE `login` = :login AND `password` = :password");
         $sth->execute($data);
         $res = $sth->fetch(PDO::FETCH_ASSOC);
@@ -59,7 +61,6 @@ class Users
             'id' => $res['id'],
             'fullName' => $res['login']
         );
-
         $jwt = JWT::encode($token, $_ENV['TOKEN_KEY'], 'HS256');
 
         $response = [
@@ -67,50 +68,6 @@ class Users
             'token' => $jwt
         ];
         echo json_encode($response);
-    }
-
-    static function getUserOnID($connect, $id)
-    {
-        /*echo json_encode($id);
-        die();*/
-        $sth = $connect->prepare("SELECT * FROM `users` WHERE `id` = :id");
-        $sth->execute(['id' => $id]);
-        $res = $sth->fetch(PDO::FETCH_ASSOC);
-        if (!$res) {
-            $res['status'] = FALSE;
-            echo json_encode($res);
-            die();
-        }
-        $res['status'] = TRUE;
-        echo json_encode($res);
-    }
-
-    static function getNameOnToken($connect, $token)
-    {
-        try {
-            $id = JWT::decode($token, $_ENV['TOKEN_KEY'], array('HS256'));
-            $sth = $connect->prepare("SELECT * FROM `users` WHERE `id` = :id");
-            $sth->execute(['id' => $id->id]);
-            $res = $sth->fetch(PDO::FETCH_ASSOC);
-            if (!$res) {
-                $res['status'] = FALSE;
-                echo json_encode($res);
-                die();
-            }
-            $res['status'] = TRUE;
-            $data = [
-                'id' => $res['id'],
-                'fullName' => $res['fullName'],
-                'login' => $res['login'],
-                'status' => $res['status']
-            ];
-
-            echo json_encode($data);
-        } catch (Exception $e) {
-            $res['status'] = FALSE;
-            echo json_encode($res);
-            die();
-        }
     }
 
     static function setUser($connect, $data)
@@ -159,16 +116,15 @@ class Users
             'password' => $password,
         ];
 
-        // Вытаскиваем пользователя из базы...
+        // Вставляем пользователя в базу
         $sth = $connect->prepare('INSERT INTO users (id, fullName, login, password, email, confirm) VALUES (NULL, :fullName, :login, :password, :email, FALSE)');
         $sth->execute($data);
 
+        // создание токена
         $token = array(
             "id" => $connect->lastInsertId(),
             "time" => time() + 60
         );
-
-        // создание токена
         $jwt = JWT::encode($token, $_ENV['TOKEN_KEY'], 'HS256');
 
         // отправка письма подтверждения
@@ -178,10 +134,10 @@ class Users
             'status' => true,
             'message' => 'Регистрация прошла успешно'
         ];
-
         echo json_encode($response);
     }
 
+    // удаление пользователя из базы
     static function deleteUser($connect, $id)
     {
         $sth = $connect->prepare("DELETE FROM `users` WHERE `id` = $id");
@@ -192,11 +148,12 @@ class Users
 
     static function checkEmail($connect, $data)
     {
-        // Вытаскиваем пользователя из базы...
+        // Вытаскиваем пользователя из базы
         $sth = $connect->prepare("SELECT * FROM `users` WHERE `login` = :login AND `password` = :password AND `confirm` = FALSE");
         $sth->execute($data);
         $res = $sth->fetch(PDO::FETCH_ASSOC);
 
+        // если нашёлся пользователь с неподтвержденной почтой
         if ($res) {
             $res = [
                 'status' => false,
@@ -209,6 +166,7 @@ class Users
         }
     }
 
+    // проверка на пустые поля
     static function checkField($data): array
     {
         $errorFields = [];
@@ -231,9 +189,10 @@ class Users
         return $errorFields;
     }
 
+    // проверка на то, зарегистрирован ли такой логин
     static function checkLogin($connect, $login)
     {
-        // Вытаскиваем пользователя из базы...
+        // Вытаскиваем пользователя из базы
         $sth = $connect->prepare("SELECT * FROM `users` WHERE `login` = :login");
         $sth->execute(['login' => $login]);
         $res = $sth->fetch(PDO::FETCH_ASSOC);
@@ -250,6 +209,7 @@ class Users
         }
     }
 
+    // ответ с кодом
     static function jsonAnswer($res, $code)
     {
         http_response_code($code);
@@ -257,19 +217,4 @@ class Users
             echo json_encode($res);
         }
     }
-/*
-    public static function addMessage(?PDO $connect, array $data)
-    {
-        $sth = $connect->prepare('INSERT INTO message (id, fullName, message) VALUES (NULL, :fullName, :message)');
-        $sth->execute($data);
-        echo json_encode(['status' => true]);
-    }
-
-    public static function baseMessage(?PDO $connect)
-    {
-        $sth = $connect->prepare("SELECT * FROM `message`");
-        $sth->execute();
-        $res = $sth->fetch(PDO::FETCH_ASSOC);
-        echo json_encode($res);
-    }*/
 }

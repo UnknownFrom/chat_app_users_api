@@ -1,7 +1,5 @@
 <?php
 
-session_start();
-
 use pavel\users\Users;
 use pavel\users\Routes;
 use pavel\connect\Database;
@@ -27,23 +25,6 @@ try {
         case 'users_signup_route':
             Users::setUser($db, $_POST);
             return;
-        case 'users_token_route':
-            Users::getNameOnToken($db, $_POST['token']);
-            return;
-        case 'users_id_route':
-            if(empty($_POST))
-            {
-                $rest_json = file_get_contents("php://input");
-                $_POST = json_decode($rest_json, true);
-            }
-            Users::getUserOnID($db, $_POST['id']);
-            return;
-        /*case 'users_addMessage_route':
-            Users::addMessage($db, $_POST);
-            return;
-        case 'users_baseMessage_route':
-            Users::baseMessage($db);
-            return;*/
         case 'users_confirm_route':
             ActivationEmail::activationEmail($db, $_GET['token']);
             return;
