@@ -121,7 +121,7 @@ class Users
         // создание токена
         $token = array(
             "id" => $connect->lastInsertId(),
-            "time" => time() + 60
+            "time" => time() + 3600
         );
         $jwt = JWT::encode($token, $_ENV['TOKEN_KEY'], 'HS256');
 
