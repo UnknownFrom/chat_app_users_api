@@ -2,9 +2,9 @@
 
 namespace pavel\users;
 
+use PDO;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
-use PDO;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 

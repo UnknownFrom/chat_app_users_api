@@ -3,11 +3,9 @@
 namespace pavel\users;
 
 const ERROR_CORRECT_FIELDS = 1;
-const ERROR_LOAD_AVATAR = 2;
 
 use PDO;
 use \Firebase\JWT\JWT;
-use PHPMailer\PHPMailer\Exception;
 
 class Users
 {
