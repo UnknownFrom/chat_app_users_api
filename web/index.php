@@ -5,7 +5,7 @@ use pavel\users\Routes;
 use pavel\connect\Database;
 use pavel\users\ActivationEmail;
 
-include "../app/vendor/autoload.php";
+include "./app/vendor/autoload.php";
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
