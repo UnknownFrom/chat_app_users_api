@@ -14,7 +14,7 @@ class Database
         try {
             if (self::$connection === null) {
                 $dsn = 'mysql:host=' . $_ENV['MYSQL_HOST'] . ';dbname=' . $_ENV['MYSQL_DATABASE'];
-                self::$connection = new PDO($dsn, $_ENV['MYSQL_ROOT_USER'], $_ENV['MYSQL_ROOT_PASSWORD']);
+                self::$connection = new PDO($dsn, $_ENV['MYSQL_USER'], $_ENV['MYSQL_PASSWORD']);
             }
             return self::$connection;
         } catch (PDOException $e) {
