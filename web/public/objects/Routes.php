@@ -19,9 +19,9 @@ class Routes
     {
         try {
             // Инициализация маршрутов
-            $users_confirm_route = new Route('/activation');
-            $users_signin_route = new Route('/signin');
-            $users_signup_route = new Route('/signup');
+            $users_confirm_route = new Route('/usersapi/activation');
+            $users_signin_route = new Route('/usersapi/signin');
+            $users_signup_route = new Route('/usersapi/signup');
 
             self::$routeCollection = new RouteCollection();
             self::$routeCollection->add('users_confirm_route', $users_confirm_route);
